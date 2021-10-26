@@ -1,13 +1,15 @@
 from itertools import chain, combinations
 from simpleai.search import (
     SearchProblem, 
-    breadth_first, 
+    breadth_first,
+    greedy, 
     depth_first, 
     uniform_cost,
     limited_depth_first,
     iterative_limited_depth_first,
     astar
 )
+from simpleai.search.viewers import WebViewer, BaseViewer, ConsoleViewer
 
 INITIAL_STATE = ((10,30,60,80,120),(),(0,300))
 
@@ -95,20 +97,32 @@ class Puente (SearchProblem):
         return tuple(new_state)
 
     def heuristic(self, state):
-        estimacion = 0
-        for persona in state[0]:
-            estimacion+=persona
-        return estimacion/2
+        if len(state[0])>1:
+            return min(state[0])
 
-problem = Puente(INITIAL_STATE)
-
-result = astar(problem)
-
-for action,state in result.path():
-    if action is not None:
-        print (action)
-        print(state)
-print(result)
+METHODS = (
+    breadth_first,
+    greedy,
+    astar
+)    
+        
+for search_algorithm in METHODS:
+    print()
+    print('=' * 50)
+    print("Running:", search_algorithm)
+    visor = BaseViewer()
+    problem = Puente(INITIAL_STATE)
+    result = search_algorithm(problem, graph_search = True)
+    print ('Final State:', result.state)
+    print('=' * 50)
+    print(' - Statistics:')
+    print(' - Amount of actions until goal:', len(result.path()))
+    print(' - Raw data:', visor.stats)
+    '''
+    for action, state in result.path():
+        print("   - Action:", action)
+        print("   - Resulting State:", state)
+    '''
 
 
 

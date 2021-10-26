@@ -1,6 +1,6 @@
 
 from itertools import chain, combinations
-
-tupla = (0,9)
-tupla=tupla+(7,)
-print(tupla)
+izquierda = (10,30,60,80,120)
+grupos = chain(combinations(izquierda, 2))
+for grupo in grupos:
+    print (grupo)

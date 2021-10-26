@@ -3,10 +3,12 @@ from simpleai.search import (
     breadth_first, 
     depth_first, 
     uniform_cost,
+    greedy,
     limited_depth_first,
     iterative_limited_depth_first,
     astar
 )
+from simpleai.search.viewers import WebViewer, BaseViewer, ConsoleViewer
 
 INITIAL_STATE = ((0,2),(0,2)) #posiciones de los robot en el tablero
 
@@ -93,5 +95,28 @@ problem = Robots_Defensivos(INITIAL_STATE)
 
 result = astar(problem)
 
-print(result)
-print(result.path())
+METHODS = (
+    breadth_first,
+    depth_first,
+    uniform_cost,
+    greedy,
+    astar
+)    
+        
+for search_algorithm in METHODS:
+    print()
+    print('=' * 50)
+    print("Running:", search_algorithm)
+    visor = BaseViewer()
+    problem =Robots_Defensivos(INITIAL_STATE)
+    result = search_algorithm(problem, graph_search = True, viewer = visor)
+    print ('Final State:', result.state)
+    print('=' * 50)
+    print(' - Statistics:')
+    print(' - Amount of actions until goal:', len(result.path()))
+    print(' - Raw data:', visor.stats)
+    '''
+    for action, state in result.path():
+        print("   - Action:", action)
+        print("   - Resulting State:", state)
+    '''
