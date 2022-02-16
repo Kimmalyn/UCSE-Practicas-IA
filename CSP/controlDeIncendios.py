@@ -23,11 +23,11 @@ problem_variables = ESTACIONES
 
 domains={}
 
-domains['A'] = ['42 de julio', 'ciclovialandia', 'barrio estandar 2', 'barrio estandar 1', 'aeroclub', 'costanera'] #los adyacentes de centro
+domains['A'] = ['42 de julio', 'barrio estandar 2', 'barrio estandar 1', 'aeroclub', 'costanera'] #los adyacentes de centro
 
 domains['B'] = ['42 de julio', 'ciclovialandia', 'barrio estandar 2', 'barrio estandar 1', 'costanera', 'barrio estandar 3']# todos menos quintas parque industrial y aeroclub
 
-domains['C'] = BARRIOS
+domains['C'] = ['42 de julio', 'ciclovialandia', 'barrio estandar 2', 'barrio estandar 1', 'costanera', 'barrio estandar 3'] #todos los barrios con 3 o mas adyacentes
 
 constraints = []
 
@@ -39,10 +39,11 @@ def all_dif(variables,values):
 constraints.append(all_dif)
 
 def no_adyacentes(variables, values):
+    barrio1,barrio2,barrio3 = values
+
+    return (barrio2 not in domains[barrio1].values() and barrio3 not in domains[barrio1].values() 
+        and barrio2 not in domains[barrio3].values())
+        
+constraints.append(no_adyacentes)
+
     
-
-
-
-
-
-

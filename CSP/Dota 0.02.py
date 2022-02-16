@@ -9,7 +9,7 @@ OBJECTS = {
     'Quelling Blade':200,
     'Shadow Blade':3000,
     'Veil of Discord':2000
-    }
+}
 
 INVENTORY = ['item1', 'item2', 'item3']
 
